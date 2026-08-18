@@ -1,71 +1,41 @@
 # Aletheia requirements.txt
 #
-# Complete pip freeze from the training environment (torch 2.13 + CUDA 13).
-# `lpips` and `matplotlib` are additionally required by train.py (training
-# uses the LPIPS AlexNet and torchvision VGG19 perceptual losses) and were
-# pinned to their standard releases.
+# Python packages required to run inference and training, pinned to the exact
+# versions used in the training environment (torch 2.13 + CUDA 13).
+#
+# - Inference (run.py) only needs: numpy, torch
+# - Training (train.py) additionally needs: torchvision, scikit-image,
+#   lpips, matplotlib, tqdm
+#
+# The complete raw `pip freeze` of the training environment is kept in
+# requirements-full.txt (it contains Ubuntu system packages such as
+# python-apt and PyGObject that cannot be pip-installed).
 
-apt-listchanges==4.8
-Brlapi==0.8.6
 certifi==2025.1.31
-chardet==5.2.0
-charset-normalizer==3.4.2
-cupshelpers==1.0
-dbus-python==1.4.0
-distro==1.9.0
 filelock==3.32.2
 fsspec==2026.7.0
-gyp-next==0.16.2
 idna==3.10
 ImageIO==2.37.4
 Jinja2==3.1.6
 lazy-loader==0.5
-louis==3.33.0
 lpips==0.1.4
 MarkupSafe==3.0.3
 matplotlib==3.10.3
 mpmath==1.3.0
 networkx==3.6.1
 numpy==2.5.2
-nvidia-cublas==13.1.1.3
-nvidia-cuda-cupti==13.0.85
-nvidia-cuda-nvrtc==13.0.88
-nvidia-cuda-runtime==13.0.96
-nvidia-cudnn-cu13==9.20.0.48
-nvidia-cufft==12.0.0.61
-nvidia-cufile==1.15.1.6
-nvidia-curand==10.4.0.35
-nvidia-cusolver==12.0.4.66
-nvidia-cusparse==12.6.3.3
-nvidia-cusparselt-cu13==0.8.1
-nvidia-nccl-cu13==2.29.7
-nvidia-nvjitlink==13.3.33
-nvidia-nvshmem-cu13==3.4.5
-nvidia-nvtx==13.0.85
 packaging==25.0
 pillow==12.3.0
 psutil==7.0.0
-pycairo==1.27.0
-pycups==2.0.4
-PyGObject==3.50.0
-pysmbc==1.0.25.1
-python-apt==3.0.0
-python-debian==1.0.1
-python-debianbts==4.1.1
-pyxdg==0.28
-reportbug==13.2.0
 requests==2.32.3
 scikit-image==0.26.0
 scipy==1.18.0
-setproctitle==1.3.6
 setuptools==84.0.0
 sympy==1.14.0
 tifffile==2026.7.31
 torch==2.13.0
 torchvision==0.28.0
 tqdm==4.70.0
-triton==3.7.1
 typing_extensions==4.16.0
 urllib3==2.3.0
 wheel==0.46.1
-xdg==5

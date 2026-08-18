@@ -11,7 +11,7 @@ This repository contains:
 | `models/model.pth` | Trained model weights (2x SR / restoration) |
 | `restored_outputs/` | Restored outputs produced by our model on the test set |
 | `train.py` | Training script that reproduces our training from scratch |
-| `requirements.txt` | Complete pip freeze of the training environment |
+| `requirements.txt` | Dependencies (pinned versions) |
 
 ---
 
@@ -19,7 +19,7 @@ This repository contains:
 
 ### Requirements
 
-- Python 3.10+ (tested with 3.12)
+- Python 3.11+ (tested with 3.12)
 - An NVIDIA GPU with CUDA (used for inference; a CPU works but is slower)
 - `pip`
 
