@@ -65,7 +65,7 @@ python run.py ./Test_NoisyLR ./my_restored_outputs
 - Values clipped to **[0, 1]**.
 - **No NaN / Inf** values.
 - **Resolution**: inputs are restored at 2x scale. Test inputs are
-  `128 x 128` and produce `256 x 256` outputs.
+  `128 x 128` or `256 x 256` and produce `256 x 256` or `512 x 512` outputs.
 - Output filename matches the input filename (e.g. `000000.npy` in →
   `000000.npy` out).
 
