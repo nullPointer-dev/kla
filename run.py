@@ -414,11 +414,9 @@ class MultiplicativeAdditiveHybridSwinSR(nn.Module):
 
     def forward(self, lr):
         speckle = self.speckle_estimator(lr)
-        speckle_safe = torch.clamp(speckle, min=SPECKLE_FLOOR)
         noise = self.noise_estimator(lr)
 
-        corrected = (lr - noise) / speckle_safe
-        corrected = torch.clamp(corrected, -1.0, 2.0)
+        corrected = (lr - noise) / speckle
         residual = lr - corrected
 
         main_input = torch.cat([lr, corrected, residual], dim=1)
@@ -448,13 +446,6 @@ class MultiplicativeAdditiveHybridSwinSR(nn.Module):
         corrected_base = self.corrected_upsample_activation(corrected_base)
         corrected_base = self.corrected_refine(corrected_base)
 
-        if sr_residual.shape[-2:] != corrected_base.shape[-2:]:
-            sr_residual = F.interpolate(
-                sr_residual,
-                size=corrected_base.shape[-2:],
-                mode="bilinear",
-                align_corners=False,
-            )
 
         sr = corrected_base + self.output_scale * sr_residual
         return sr
@@ -467,7 +458,7 @@ class MultiplicativeAdditiveHybridSwinSR(nn.Module):
 def load_npy(path):
     """Load a .npy file into a 1 x H x W float tensor."""
     x = np.load(path).astype(np.float32)
-    x = np.nan_to_num(x, nan=0.0, posinf=0.0, neginf=0.0)
+    x = np.nan_to_num(x, nan=0.0, posinf=1.0, neginf=0.0)
 
     if x.ndim == 2:
         x = x[None]
@@ -505,7 +496,6 @@ def restore_image(model, lr_path, device, amp):
     with torch.amp.autocast("cuda", enabled=amp):
         sr = model(lr_input)
 
-    sr = torch.clamp(sr.float(), 0.0, 1.0)
     sr = sr[0].cpu().numpy()
     sr = np.squeeze(sr)
     sr = np.nan_to_num(sr, nan=0.0, posinf=1.0, neginf=0.0)
