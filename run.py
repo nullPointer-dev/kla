@@ -46,8 +46,6 @@ CA_REDUCTION = 8
 EPS = 1e-6
 SPECKLE_FLOOR = 0.05
 
-# All test images in this challenge are 128x128 low-resolution crops.
-LR_SIZE = 128
 
 
 # ============================================================
@@ -500,14 +498,6 @@ def restore_image(model, lr_path, device, amp):
     """Run the model on a single LR image and return a 2D (H, W) array."""
     lr = load_npy(lr_path)
 
-    # The model was trained on 128x128 inputs; resize if necessary.
-    if lr.shape[-2:] != (LR_SIZE, LR_SIZE):
-        lr = F.interpolate(
-            lr.unsqueeze(0),
-            size=(LR_SIZE, LR_SIZE),
-            mode="bicubic",
-            align_corners=False,
-        ).squeeze(0)
 
     lr = fix_channels(lr, IN_CHANNELS)
     lr_input = lr.unsqueeze(0).to(device, non_blocking=True)
